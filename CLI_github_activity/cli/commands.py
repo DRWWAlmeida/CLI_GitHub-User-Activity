@@ -4,7 +4,11 @@ from services.manager import Manager
 manager = Manager()
 
 def _cmd_check(args):
-    manager.check(args.user_name)
+    events = manager.fetch_activity(args.user_name)
+    for event in events[:10]:  # limita a 10 eventos
+        message = manager.output(event)
+        if message:
+            print(f"- {message}")
 
 def main():
     parser = argparse.ArgumentParser(prog='API', description="CLI Github activity")
